@@ -22,6 +22,5 @@ describe Sidekiq::IdempotentBlock::Worker do
   end
 
   describe '#idempotent_block_key_for' do
-    expect(@worker.idempotent_block_key_for('foo')).to eq('')
   end
 end
