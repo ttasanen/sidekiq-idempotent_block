@@ -1,4 +1,5 @@
 # Sidekiq::IdempotentBlock
+[![Build Status](https://travis-ci.org/ttasanen/sidekiq-idempotent_block.svg?branch=master)](https://travis-ci.org/ttasanen/sidekiq-idempotent_block)
 
 This is still work in progress and is not ready for production use!
 
