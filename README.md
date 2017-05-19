@@ -4,7 +4,7 @@
 This is still work in progress and is not ready for production use!
 
 Specify blocks in your Sidekiq workers that should not ever be executed more than once within given worker instance. Sidekiq does great job retrying failed jobs automatically, but this also leads to the fact that you must design your workers to be idempotent. In simple workers this might not be an issue especially when dealing only with database transaction. But in many real life scenarios the workers do really complex stuff and wrapping them in one single database transaction is not possible. 
-Furthermore when dealing with external API calls, database like transactions are not available and you must always manually track and store the executed steps since in most cases api calls are note idempotent.
+Furthermore when dealing with external API calls, database-like transactions are not available and you must always manually track and store the executed steps since in most cases api calls are not idempotent.
 
 Idempotent_block provides a simple solution for this allowing you to wrap code in blocks that are guaranteed to execute only once with in the context of the given unique job id.
 
