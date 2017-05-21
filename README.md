@@ -44,6 +44,32 @@ class TestWorker
 end
 ```
 
+If the return value of a block is needed in later steps of the execution in retries you can opt-in to store the block result with the `store_result` option. It's recommended to store only the absolute minimum data needed since storing large objects in Redis can really slow down the workers.
+
+```ruby
+class TestWorker
+  include Sidekiq::Worker
+  include Sidekiq::IdempotentBlock::Worker
+  
+  def perform(id)
+    user = User.find(id)
+  
+    api_result = idempotent_block :my_first_api_call, store_result: true do
+       result = MyApi.really_important_method(user.id)
+
+       {id: result.id, new_value: result.value}
+    end
+    
+    # ...
+  
+    idempotent_block :my_second_api_call do
+      MyApi.other_method(api_result.fetch(:id), api_result.fetch(:new_value))
+    end
+  end
+end
+```
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
